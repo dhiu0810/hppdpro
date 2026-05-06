@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Kloi 🎂</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <style>
+    :root {
+      --pink: #ff6eb4;
+      --pink-light: #ffd6ec;
+      --pink-dark: #e0479e;
+      --purple: #c77dff;
+      --yellow: #ffe066;
+      --bg: #fff0f7;
+      --white: #ffffff;
+      --text: #3a1a2e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      font-family: 'Nunito', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ===== BALLOONS ===== */
+    .balloons {
+      position: fixed;
+      bottom: -120px;
+      width: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: 0;
+      width: 50px;
+      height: 65px;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      animation: floatUp linear infinite;
+      opacity: 0.85;
+    }
+
+    .balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1.5px;
+      height: 20px;
+      background: #aaa;
+    }
+
+    .balloon:nth-child(1) { left: 5%;  background: #ff6eb4; animation-duration: 7s;  animation-delay: 0s;   width:45px; height:58px; }
+    .balloon:nth-child(2) { left: 15%; background: #c77dff; animation-duration: 9s;  animation-delay: 1s; }
+    .balloon:nth-child(3) { left: 27%; background: #ffe066; animation-duration: 8s;  animation-delay: 2.5s; width:55px; height:70px; }
+    .balloon:nth-child(4) { left: 40%; background: #ff6eb4; animation-duration: 10s; animation-delay: 0.5s; }
+    .balloon:nth-child(5) { left: 55%; background: #7bdff2; animation-duration: 7.5s;animation-delay: 3s;   width:42px; height:54px; }
+    .balloon:nth-child(6) { left: 68%; background: #c77dff; animation-duration: 9.5s;animation-delay: 1.5s; }
+    .balloon:nth-child(7) { left: 80%; background: #ff6eb4; animation-duration: 8.5s;animation-delay: 4s;   width:48px; height:62px; }
+    .balloon:nth-child(8) { left: 90%; background: #ffe066; animation-duration: 6.5s;animation-delay: 2s; }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(0) rotate(-3deg); opacity: 0.85; }
+      50%  { transform: translateY(-55vh) rotate(3deg); }
+      100% { transform: translateY(-115vh) rotate(-3deg); opacity: 0; }
+    }
+
+    /* ===== STARS BG ===== */
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .star {
+      position: absolute;
+      width: 6px; height: 6px;
+      background: var(--pink);
+      border-radius: 50%;
+      opacity: 0;
+      animation: twinkle ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; transform: scale(0.5); }
+      50%       { opacity: 0.6; transform: scale(1.2); }
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      padding: 20px;
+    }
+
+    .title {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: clamp(16px, 4vw, 22px);
+      color: var(--pink-dark);
+      text-align: center;
+      letter-spacing: 0.5px;
+      animation: fadeSlideDown 0.8s ease both;
+      text-shadow: 0 2px 8px rgba(255,110,180,0.2);
+    }
+
+    @keyframes fadeSlideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 32px 28px 28px;
+      width: min(480px, 92vw);
+      box-shadow: 0 8px 40px rgba(255,110,180,0.18), 0 2px 8px rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      animation: fadeSlideUp 0.9s ease 0.2s both;
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .cat-img {
+      width: 140px;
+      border-radius: 16px;
+      box-shadow: 0 4px 18px rgba(255,110,180,0.25);
+      transition: transform 0.4s cubic-bezier(.34,1.56,.64,1);
+    }
+    .cat-img:hover { transform: scale(1.07) rotate(-2deg); }
+
+    /* Pulse button */
+    .btn-wish {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 32px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(255,110,180,0.4);
+      animation: pulse 2.2s ease-in-out infinite;
+      transition: transform 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.3px;
+    }
+
+    .btn-wish:hover {
+      transform: scale(1.06);
+      box-shadow: 0 6px 28px rgba(255,110,180,0.55);
+      animation: none;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 4px 18px rgba(255,110,180,0.4); transform: scale(1); }
+      50%       { box-shadow: 0 4px 32px rgba(199,125,255,0.5); transform: scale(1.03); }
+    }
+
+    /* Music toggle */
+    .music-btn {
+      background: var(--pink-light);
+      border: 2px solid var(--pink);
+      color: var(--pink-dark);
+      border-radius: 50px;
+      padding: 8px 20px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .music-btn:hover { background: var(--pink); color: white; transform: scale(1.04); }
+
+    /* ===== OVERLAY & MODAL ===== */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(60, 0, 40, 0.55);
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      animation: fadeIn 0.35s;
+    }
+
+    .overlay.active { display: flex; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .modal {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 36px 30px 30px;
+      width: min(380px, 92vw);
+      text-align: center;
+      box-shadow: 0 16px 60px rgba(255,110,180,0.3);
+      position: relative;
+      animation: popIn 0.4s cubic-bezier(.34,1.56,.64,1);
+      overflow: hidden;
+    }
+
+    .modal::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--pink), var(--purple), var(--yellow), var(--pink));
+      background-size: 200%;
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.75); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 14px; right: 18px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #bbb;
+      line-height: 1;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .close-btn:hover { color: var(--pink-dark); transform: rotate(90deg); }
+
+    .modal h2 {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(20px, 5vw, 26px);
+      color: var(--pink-dark);
+      margin-bottom: 16px;
+    }
+
+    .modal p {
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .modal img {
+      width: 140px;
+      border-radius: 12px;
+      margin-top: 12px;
+      box-shadow: 0 4px 16px rgba(255,110,180,0.2);
+    }
+
+    /* ===== SLIDESHOW ===== */
+    .slideshow-wrap {
+      width: 100%;
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .slideshow-box {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fce4f3;
+      box-shadow: 0 4px 20px rgba(255,110,180,0.2);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide.active { opacity: 1; }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0;
+      margin: 0;
+      box-shadow: none;
+    }
+
+    /* Dots */
+    .slide-dots {
+      display: none;
+    }
+
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--pink-light);
+      border: 2px solid var(--pink);
+      transition: background 0.3s, transform 0.3s;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background: var(--pink);
+      transform: scale(1.3);
+    }
+
+    /* Slide counter */
+    .slide-counter {
+      display: none;
+    }
+
+    /* Copy button */
+    .copy-btn {
+      display: inline-block;
+      margin-top: 14px;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 9px 22px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .copy-btn:hover { transform: scale(1.05); opacity: 0.92; }
+  </style>
+</head>
+<body>
+
+  <!-- Stars background -->
+  <div class="stars" id="stars"></div>
+
+  <!-- Floating balloons -->
+  <div class="balloons">
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+    <div class="balloon"></div>
+  </div>
+
+  <!-- Hidden audio -->
+  <audio id="bgMusic" loop>
+    <source src="https://res.cloudinary.com/dlfu5oylu/video/upload/v1778036861/Bongo_Cat_-_Happy_Birthday_to_You_Cover_Version_obtla7.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Main content -->
+  <div class="wrapper">
+    <p class="title">✨ HÌNH NHƯ DHIU NHỚ HÔM NAY LÀ NGÀY GÌ ĐÓ... ✨</p>
+
+    <div class="card">
+      <img class="cat-img"
+        src="https://auvi.edu.vn/wp-content/uploads/2025/02/avatar-meo-vo-tri-3.jpg"
+        alt="Mèo cute"
+        onerror="this.src='https://placekitten.com/150/150'">
+
+      <button class="btn-wish" id="showWish">🎁 Click vào đây để giúp dhiu nhớ raa~</button>
+    </div>
+  </div>
+
+  <!-- Modal popup -->
+  <div class="overlay" id="birthdayOverlay">
+    <div class="modal">
+      <span class="close-btn" id="closeBtn">&times;</span>
+      <h2>🎂 Happy Birthday! 🎈</h2>
+      <p>Chúc Kloi có một ngày sinh nhật thật vui vẻ, mạnh khỏe,
+      gặp nhiều may mắn và ngày càng xinh đẹp. Kím được anh nào iu thương bạn toi thì càng tốt
+      và mong cho Kloi thành công trên con đường mình chọn. 💕</p>
+      <p>Toi luôn tự hào về ní đóa, tự tin lên nhó broo 🌟</p>
+      <p>Hy vọng cuộc sống này sẽ iu thương bạn toii 🌸</p>
+      <!-- SLIDESHOW -->
+      <div class="slideshow-wrap">
+        <div class="slideshow-box" id="slideshowBox">
+          <!-- ================================================
+               THAY LINK ẢNH CỦA BẠN VÀO ĐÂY
+               Thêm hoặc xóa <div class="slide"> tùy ý
+               ================================================ -->
+          <div class="slide active">
+            <img src="https://www.robins.vn/wp-content/uploads/2026/01/hinh-anh-con-meo-cute-1.jpg.jpg" alt="Ảnh 1" loading="lazy">
+          </div>
+          <div class="slide">
+            <img src="https://cdn11.dienmaycholon.vn/filewebdmclnew/public/userupload/files/Image%20FP_2024/anh-meo-15.jpg" alt="Ảnh 2" loading="lazy">
+          </div>
+          <div class="slide">
+            <img src="https://i.pinimg.com/236x/bc/88/15/bc881536a76015d935aeae08de4a16df.jpg" alt="Ảnh 3" loading="lazy">
+          </div>
+          <div class="slide">
+            <img src="https://m.yodycdn.com/blog/hinh-anh-meo-hai-huoc-yodyvn-c7257e34-ea9a-47c0-b357-666753f0ce90.jpg" alt="Ảnh 4" loading="lazy">
+          </div>
+          <div class="slide">
+            <img src="https://i.ibb.co/k6gpfzjm/f24f15dd-ed4b-4418-92ae-1b3f05bcb7c3.jpg" alt="Ảnh 4" loading="lazy">
+          </div>
+          <!-- ================================================ -->
+          <div class="slide-counter" id="slideCounter">1 / 4</div>
+        </div>
+        <div class="slide-dots" id="slideDots"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== STARS =====
+    const starsEl = document.getElementById('stars');
+    for (let i = 0; i < 30; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      s.style.cssText = `
+        left: ${Math.random()*100}%;
+        top: ${Math.random()*100}%;
+        animation-duration: ${2 + Math.random()*3}s;
+        animation-delay: ${Math.random()*4}s;
+        width: ${4 + Math.random()*6}px;
+        height: ${4 + Math.random()*6}px;
+        background: ${['#ff6eb4','#c77dff','#ffe066','#7bdff2'][Math.floor(Math.random()*4)]};
+      `;
+      starsEl.appendChild(s);
+    }
+
+    // ===== MODAL =====
+    const showBtn  = document.getElementById('showWish');
+    const closeBtn = document.getElementById('closeBtn');
+    const overlay  = document.getElementById('birthdayOverlay');
+
+    const music = document.getElementById('bgMusic');
+    
+    function openModal() {
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  shootConfetti();
+  goTo(0);
+  startSlideshow();
+
+  // 👉 phát nhạc khi mở quà
+  music.play().catch(() => {});
+}
+
+    function closeModal() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      stopSlideshow();
+    }
+
+    showBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    // ===== CONFETTI =====
+    function shootConfetti() {
+      const end = Date.now() + 2200;
+      const colors = ['#ff6eb4', '#c77dff', '#ffe066', '#7bdff2', '#ff9de2'];
+      (function frame() {
+        confetti({ particleCount: 6, angle: 60,  spread: 55, origin: { x: 0 }, colors });
+        confetti({ particleCount: 6, angle: 120, spread: 55, origin: { x: 1 }, colors });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      })();
+    }
+
+    // ===== SLIDESHOW =====
+    const slides      = document.querySelectorAll('.slide');
+    const dotsWrap    = document.getElementById('slideDots');
+    const counter     = document.getElementById('slideCounter');
+    const INTERVAL_MS = 2000; // ← đổi số này để thay đổi thời gian mỗi ảnh (ms)
+    let current       = 0;
+    let slideTimer    = null;
+
+    // Tạo dots tự động theo số slide
+    slides.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(d);
+    });
+
+    function goTo(idx) {
+      slides[current].classList.remove('active');
+      dotsWrap.children[current].classList.remove('active');
+      current = (idx + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dotsWrap.children[current].classList.add('active');
+      counter.textContent = `${current + 1} / ${slides.length}`;
+    }
+
+    function startSlideshow() {
+      stopSlideshow();
+      slideTimer = setInterval(() => goTo(current + 1), INTERVAL_MS);
+    }
+
+    function stopSlideshow() {
+      if (slideTimer) { clearInterval(slideTimer); slideTimer = null; }
+    }
+
+  </script>
+</body>
+</html>
