@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday Kloi 🎂</title>
+  <title>Happy Birthday 🎂</title>
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
   <style>
@@ -390,7 +390,7 @@
 
     <div class="card">
       <img class="cat-img"
-        src="https://auvi.edu.vn/wp-content/uploads/2025/02/avatar-meo-vo-tri-3.jpg"
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSa0CCGJqqeavQhz1-Yl5xmt1X1gyZtKvEJPw&s"
         alt="Mèo cute"
         onerror="this.src='https://placekitten.com/150/150'">
 
@@ -475,10 +475,14 @@
 }
 
     function closeModal() {
-      overlay.classList.remove('active');
-      document.body.style.overflow = '';
-      stopSlideshow();
-    }
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+  stopSlideshow();
+
+  // 👉 tắt nhạc khi đóng
+  music.pause();
+  music.currentTime = 0; // (tuỳ chọn) reset về đầu bài
+}
 
     showBtn.addEventListener('click', openModal);
     closeBtn.addEventListener('click', closeModal);
